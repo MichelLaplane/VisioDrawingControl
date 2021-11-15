@@ -4,6 +4,8 @@ Copyright (c) MS-PL License
 Michel Laplane (MVP Visio - ShareVisual)
 
 
+![ScreenShot 1](https://github.com/MichelLaplane/VisioDrawingControl/blob/master/VisioDrawingControl/Images/ScreenShot.png)
+
 What's new
 ===========
 
