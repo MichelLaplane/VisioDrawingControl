@@ -27,6 +27,8 @@ namespace VisioDrawingControl
     string strStencilPath = @"D:\Dev\VisioDrawingControl\VisioDrawingControl\Stencils";
     string strDrawingPath = @"D:\Dev\VisioDrawingControl\VisioDrawingControl\Drawings";
 
+    string strLastDocument="";
+
     public MainForm()
       {
       InitializeComponent();
@@ -45,12 +47,19 @@ namespace VisioDrawingControl
 
     private void MainForm_Load(object sender, EventArgs e)
       {
-
+      visApp = (Visio.Application)axDrawingControl.Window.Application;
+      visPage = (Visio.Page)axDrawingControl.Document.Pages[1];
+      visWindow = (Visio.Window)axDrawingControl.Window;
+      visDocument = (Visio.Document)axDrawingControl.Document;
+      visDocuments = (Visio.Documents)axDrawingControl.Window.Application.Documents;
       }
 
     private void ribbonOrbNewMenuItem_Click(object sender, EventArgs e)
       {
-      axDrawingControl_VisibleChanged(null, null);
+      axDrawingControl.Src = Path.Combine(strDrawingPath, "Blank.vsdx");
+      string stencilPath = Path.Combine(strStencilPath, "VisioDrawingControl.vssx");
+      visStencil = visDocuments.OpenEx(stencilPath, (short)Visio.VisOpenSaveArgs.visAddDocked);
+      strLastDocument = "Blank.vsdx";
       }
 
 
@@ -60,7 +69,7 @@ namespace VisioDrawingControl
 
       dlgOpenFileDialog = new OpenFileDialog();
       dlgOpenFileDialog.Title = "Select a Diagram";
-      dlgOpenFileDialog.Filter = "Dessin (*.vsdx)|*.vsdx";
+      dlgOpenFileDialog.Filter = "Drawing (*.vsdx)|*.vsdx";
       dlgOpenFileDialog.FilterIndex = 1;  // 1 based index
       dlgOpenFileDialog.InitialDirectory = strDrawingPath;
 
@@ -68,9 +77,7 @@ namespace VisioDrawingControl
         {
         try
           {
-          this.axDrawingControl.Src = "";
-          //          string strFileName = "";
-          this.Text = "Projet : " + dlgOpenFileDialog.FileName;
+          this.Text = "Project : " + dlgOpenFileDialog.FileName;
           // La ligne qui suit fait afficher le fichier
           this.axDrawingControl.Src = dlgOpenFileDialog.FileName;
           visApp = (Visio.Application)axDrawingControl.Window.Application;
@@ -88,10 +95,68 @@ namespace VisioDrawingControl
         }
       }
 
+    private void ribbonOrbSaveMenuItem_Click(object sender, EventArgs e)
+      {
+      if(strLastDocument == "Blank.vsdx")
+        {
+        SaveFileDialog dlgSaveFileDialog;
+
+        dlgSaveFileDialog = new SaveFileDialog();
+        dlgSaveFileDialog.Title = "Save as";
+        dlgSaveFileDialog.Filter = "Dessin (*.vsdx)|*.vsdx";
+        dlgSaveFileDialog.FilterIndex = 1;  // 1 based index
+        dlgSaveFileDialog.InitialDirectory = strDrawingPath;
+
+        if (dlgSaveFileDialog.ShowDialog() == DialogResult.OK)
+          {
+          try
+            {
+            this.Text = "Project : " + dlgSaveFileDialog.FileName;
+            visDocument.SaveAs(dlgSaveFileDialog.FileName);
+            // La ligne qui suit fait afficher le fichier
+            this.axDrawingControl.Src = dlgSaveFileDialog.FileName;
+            }
+          catch (Exception excep)
+            {
+            }
+          }
+        }
+      else
+        {
+        visDocument.Save();
+        }
+      }
+
+
+      private void ribbonOrbSaveAsMenuItem_Click(object sender, EventArgs e)
+      {
+      SaveFileDialog dlgSaveFileDialog;
+
+      dlgSaveFileDialog = new SaveFileDialog();
+      dlgSaveFileDialog.Title = "Save as";
+      dlgSaveFileDialog.Filter = "Drawing (*.vsdx)|*.vsdx";
+      dlgSaveFileDialog.FilterIndex = 1;  // 1 based index
+      dlgSaveFileDialog.InitialDirectory = strDrawingPath;
+
+      if (dlgSaveFileDialog.ShowDialog() == DialogResult.OK)
+        {
+        try
+          {
+          this.Text = "Projet : " + dlgSaveFileDialog.FileName;
+          visDocument.SaveAs(dlgSaveFileDialog.FileName);
+          // La ligne qui suit fait afficher le fichier
+          this.axDrawingControl.Src = dlgSaveFileDialog.FileName;
+          }
+        catch (Exception excep)
+          {
+
+          }
+        }
+      }
+
     private void ribbonOrbCloseMenuItem_Click(object sender, EventArgs e)
       {
-      //this.axDrawingControl.Src = "";
-      //  this.axDrawingControl.;
+      axDrawingControl.Src = Path.Combine(strDrawingPath, "Blank.vsdx");
       }
 
 
@@ -100,67 +165,8 @@ namespace VisioDrawingControl
       Close();
       }
 
-    private void ribbonButton2_Click(object sender, EventArgs e)
+    private void FindVisioWindows()
       {
-      //Console.WriteLine("clicked");
-      //TestForm t = new TestForm();
-      // t.ShowDialog(this);
-      }
-
-    private void ribbonButton5_Click(object sender, EventArgs e)
-      {
-      //Console.WriteLine("clicked");
-      //TestForm t = new TestForm();
-      //t.Show(this);
-      }
-
-    public void toggleQuickAccessButton(RibbonButton dropDownButton, RibbonButton quickAccessButton)
-      {
-      if (quickAccessButton.Visible)
-        {
-        dropDownButton.SmallImage = Resources.unchecked16;
-        quickAccessButton.Visible = false;
-        }
-      else
-        {
-        dropDownButton.SmallImage = Resources.exit16;
-        quickAccessButton.Visible = true;
-        } // if / else
-      } // toggleQuickAccessButton
-
-    private void dropDownButtonSave_Click(object sender, EventArgs e)
-      {
-      toggleQuickAccessButton(sender as RibbonButton, ribbonButton42);
-      }
-
-    private void dropDownButtonPrint_Click(object sender, EventArgs e)
-      {
-      toggleQuickAccessButton(sender as RibbonButton, ribbonButton43);
-      }
-
-    private void dropDownButtonUndo_Click(object sender, EventArgs e)
-      {
-      toggleQuickAccessButton(sender as RibbonButton, ribbonButton44);
-      }
-
-    private void dropDownButtonOpen_Click(object sender, EventArgs e)
-      {
-      toggleQuickAccessButton(sender as RibbonButton, ribbonButton45);
-      }
-
-    private void axDrawingControl_VisibleChanged(object sender, EventArgs e)
-      {
-      this.axDrawingControl.Src = "";
-      //string strFileName = "";
-      // La ligne qui suit fait afficher le fichier
-      //this.axDrawingControl1.Src = strFileName;
-      visApp = (Visio.Application)axDrawingControl.Window.Application;
-      visPage = (Visio.Page)axDrawingControl.Document.Pages[1];
-      visWindow = (Visio.Window)axDrawingControl.Window;
-      visDocument = (Visio.Document)axDrawingControl.Document;
-      visDocuments = (Visio.Documents)axDrawingControl.Window.Application.Documents;
-      visDocuments.Add("");
-      visStencil = (Visio.Document)axDrawingControl.Document;
       IntPtr windowVisioMHandle = NativeMethods.FindWindowEx((System.IntPtr)visApp.Window.WindowHandle32,
                                                               IntPtr.Zero, "VISIOM", null);
       IntPtr windowVisioGHandle = NativeMethods.FindWindowEx((System.IntPtr)windowVisioMHandle,
@@ -172,47 +178,8 @@ namespace VisioDrawingControl
                                                               IntPtr.Zero, null, "Formes");
         NativeMethods.CloseWindow(windowFormeVisioHandle);
         }
-
-      //string strPath = System.IO.Directory.GetCurrentDirectory();
-      visStencil = OpenStencil(strStencilPath, @"VisioDrawingControl.vssx", visDocuments, false,
-                                       "VDC", 0);
-      visStencil = OpenStencil(strStencilPath, @"VisioDrawingControl.vssx", visDocuments, false,
-                                       "VDC", 0);
       }
 
-    public static Visio.Document OpenStencil(string strStencilPath, string strStencilName,
-                                             Visio.Documents visDocuments, bool bHide,
-                                             string strHost, int iMode)
-      {
-      string stencilPath = Path.Combine(strStencilPath, strStencilName);
-      Visio.Document visStencil = null;
-
-      try
-        {
-        if (bHide)
-          {
-          visStencil = visDocuments.Open(stencilPath);
-          //visStencil = visDocuments.OpenEx(stencilPath,
-          //  (short)Visio.VisOpenSaveArgs.visOpenRO
-          //  + (short)Visio.VisOpenSaveArgs.visOpenHidden
-          //  + (short)Visio.VisOpenSaveArgs.visOpenMinimized
-          //  + (short)Visio.VisOpenSaveArgs.visOpenNoWorkspace);
-          }
-        else
-          {
-          visStencil = visDocuments.Open(stencilPath);
-          //ModifyMasterDisplayInStencil(strHost, iMode);
-          //visStencil = visDocuments.OpenEx(stencilPath,
-          //  (short)Visio.VisOpenSaveArgs.visOpenCopy);
-          }
-        return visStencil;
-        }
-      catch (Exception exp)
-        {
-        MessageBox.Show("Erreur de chargement du gabarit: " + stencilPath);
-        return visStencil;
-        }
-      }
 
     public static int SendCommand(IOleCommandTarget commandTarget, uint uiCommand)
       {
@@ -232,7 +199,7 @@ namespace VisioDrawingControl
       return iCompteRendu;
       }
 
-    private void ribbonButtonLineFill_Click(object sender, EventArgs e)
+    private void ribbonButtonFormatFill_Click(object sender, EventArgs e)
       {
       SendCommand((IOleCommandTarget)axDrawingControl.GetOcx(),
                           (UInt32)Visio.VisUICmds.visCmdFormatFill);
