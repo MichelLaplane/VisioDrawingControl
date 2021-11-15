@@ -52,6 +52,7 @@ namespace VisioDrawingControl
       visWindow = (Visio.Window)axDrawingControl.Window;
       visDocument = (Visio.Document)axDrawingControl.Document;
       visDocuments = (Visio.Documents)axDrawingControl.Window.Application.Documents;
+      axDrawingControl.NegotiateMenus = true;
       }
 
     private void ribbonOrbNewMenuItem_Click(object sender, EventArgs e)
@@ -194,7 +195,7 @@ namespace VisioDrawingControl
         }
       catch (COMException except)
         {
-        MessageBox.Show("Erreur applicaiton: ");
+        MessageBox.Show("Application error: ");
         }
       return iCompteRendu;
       }
@@ -204,7 +205,16 @@ namespace VisioDrawingControl
       SendCommand((IOleCommandTarget)axDrawingControl.GetOcx(),
                           (UInt32)Visio.VisUICmds.visCmdFormatFill);
       }
+
+    private void ribbonButtonDrawRect_Click(object sender, EventArgs e)
+      {
+      SendCommand((IOleCommandTarget)axDrawingControl.GetOcx(),
+                          (UInt32)Visio.VisUICmds.visCmdDRRectTool);
+      }
+
     }
+
+
 
   [ComImport(), Guid("B722BCCB-4E68-101B-A2BC-00AA00404770"),
 InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]

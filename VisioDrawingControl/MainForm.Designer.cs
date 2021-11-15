@@ -40,9 +40,10 @@ namespace VisioDrawingControl
       this.ribbonOrbCloseMenuItem = new System.Windows.Forms.RibbonOrbMenuItem();
       this.ribbonOrbQuitMenuItem = new System.Windows.Forms.RibbonOrbMenuItem();
       this.ribbonTab1 = new System.Windows.Forms.RibbonTab();
-      this.ribbonPanelVisio = new System.Windows.Forms.RibbonPanel();
+      this.ribbonFormatPanel = new System.Windows.Forms.RibbonPanel();
+      this.ribbonToolPanel = new System.Windows.Forms.RibbonPanel();
+      this.ribbonButtonDrawRect = new System.Windows.Forms.RibbonButton();
       this.ribbonButtonLineFill = new System.Windows.Forms.RibbonButton();
-      this.ribbonCheckBox1 = new System.Windows.Forms.RibbonCheckBox();
       this.axDrawingControl = new AxMicrosoft.Office.Interop.VisOcx.AxDrawingControl();
       ((System.ComponentModel.ISupportInitialize)(this.axDrawingControl)).BeginInit();
       this.SuspendLayout();
@@ -70,9 +71,6 @@ namespace VisioDrawingControl
       this.ribbon1.OrbDropDown.TabIndex = 0;
       this.ribbon1.OrbStyle = System.Windows.Forms.RibbonOrbStyle.Office_2010;
       this.ribbon1.OrbText = "FILE";
-      // 
-      // 
-      // 
       this.ribbon1.RibbonTabFont = new System.Drawing.Font("Trebuchet MS", 9F);
       this.ribbon1.Size = new System.Drawing.Size(928, 150);
       this.ribbon1.TabIndex = 0;
@@ -109,7 +107,6 @@ namespace VisioDrawingControl
       this.ribbonOrbSaveMenuItem.Name = "ribbonOrbSaveMenuItem";
       this.ribbonOrbSaveMenuItem.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonOrbSaveMenuItem.SmallImage")));
       this.ribbonOrbSaveMenuItem.Text = "Save";
-      this.ribbonOrbOpenMenuItem.Click += new System.EventHandler(this.ribbonOrbSaveMenuItem_Click);
       // 
       // ribbonOrbSaveAsMenuItem
       // 
@@ -144,18 +141,33 @@ namespace VisioDrawingControl
       // ribbonTab1
       // 
       this.ribbonTab1.Name = "ribbonTab1";
-      this.ribbonTab1.Panels.Add(this.ribbonPanelVisio);
+      this.ribbonTab1.Panels.Add(this.ribbonToolPanel);
+      this.ribbonTab1.Panels.Add(this.ribbonFormatPanel);
       this.ribbonTab1.Text = "Home";
       // 
-      // ribbonPanelVisio
+      // ribbonToolPanel
       // 
-      this.ribbonPanelVisio.Items.Add(this.ribbonButtonLineFill);
-      this.ribbonPanelVisio.Name = "ribbonPanelVisio";
-      this.ribbonPanelVisio.Text = "Visio Command";
+      this.ribbonToolPanel.Items.Add(this.ribbonButtonDrawRect);
+      this.ribbonToolPanel.Name = "ribbonToolPanel";
+      this.ribbonToolPanel.Text = "Tools";
+      // 
+      // ribbonButtonDrawRect
+      // 
+      this.ribbonButtonDrawRect.Image = ((System.Drawing.Image)(resources.GetObject("ribbonButtonDrawRect.Image")));
+      this.ribbonButtonDrawRect.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButtonDrawRect.LargeImage")));
+      this.ribbonButtonDrawRect.Name = "ribbonButtonDrawRect";
+      this.ribbonButtonDrawRect.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButtonDrawRect.SmallImage")));
+      this.ribbonButtonDrawRect.Text = "Rectangle";
+      this.ribbonButtonDrawRect.Click += new System.EventHandler(this.ribbonButtonDrawRect_Click);
+      // 
+      // ribbonFormatPanel
+      // 
+      this.ribbonFormatPanel.Items.Add(this.ribbonButtonLineFill);
+      this.ribbonFormatPanel.Name = "ribbonDrawPanel";
+      this.ribbonFormatPanel.Text = "Draw";
       // 
       // ribbonButtonLineFill
       // 
-      this.ribbonButtonLineFill.DropDownItems.Add(this.ribbonCheckBox1);
       this.ribbonButtonLineFill.Image = ((System.Drawing.Image)(resources.GetObject("ribbonButtonLineFill.Image")));
       this.ribbonButtonLineFill.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButtonLineFill.LargeImage")));
       this.ribbonButtonLineFill.Name = "ribbonButtonLineFill";
@@ -199,7 +211,9 @@ namespace VisioDrawingControl
     private RibbonOrbMenuItem ribbonOrbCloseMenuItem;
     private RibbonOrbMenuItem ribbonOrbQuitMenuItem;
     private AxMicrosoft.Office.Interop.VisOcx.AxDrawingControl axDrawingControl;
-    private RibbonPanel ribbonPanelVisio;
+    private RibbonPanel ribbonToolPanel;
+    private RibbonPanel ribbonFormatPanel;
+    private RibbonButton ribbonButtonDrawRect;   
     private RibbonButton ribbonButtonLineFill;
     }
   }

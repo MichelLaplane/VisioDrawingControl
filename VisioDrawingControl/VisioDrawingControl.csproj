@@ -70,6 +70,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Drawings\Blank.vsdx" />
     <None Include="Drawings\VisioDrawingControl.vsdx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -233,6 +234,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\ScreenShot.png" />
+    <None Include="Resources\Rectangle32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
