@@ -163,8 +163,8 @@ namespace VisioDrawingControl
       // ribbonFormatPanel
       // 
       this.ribbonFormatPanel.Items.Add(this.ribbonButtonLineFill);
-      this.ribbonFormatPanel.Name = "ribbonDrawPanel";
-      this.ribbonFormatPanel.Text = "Draw";
+      this.ribbonFormatPanel.Name = "ribbonFormatPanel";
+      this.ribbonFormatPanel.Text = "Format";
       // 
       // ribbonButtonLineFill
       // 
